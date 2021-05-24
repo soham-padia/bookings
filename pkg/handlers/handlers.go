@@ -46,3 +46,25 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 		StringMap: stringMap,
 	})
 }
+
+func (m *Repository) Pc(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "pc.page.html", &models.TemplateData{})
+}
+func (m *Repository) Phone(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "phone.page.html", &models.TemplateData{})
+}
+func (m *Repository) Laptop(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "laptop.page.html", &models.TemplateData{})
+}
+func (m *Repository) Download(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "download.page.html", &models.TemplateData{})
+}
+func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "contact.page.html", &models.TemplateData{})
+}
+func (m *Repository) Docs(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "docs.page.html", &models.TemplateData{})
+}
+func (m *Repository) Donate(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, "donate.page.html", &models.TemplateData{})
+}
