@@ -13,25 +13,7 @@
        <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.css">
        <!-- <link rel="stylesheet" href="@sweetalert2/theme-wordpress-admin/wordpress-admin.css"> -->
-   
-   
-    <style>
-      .body{
-        background-color: #2e2b3e;
-        color: blanchedalmond;
-      }
-      .my-footer{
-        background-color: #2e2b3e;
-        margin-top: 1.5em;
-        height: 4em;
-        padding: 1em;
-        font-size: 80%;
-        border: 2px solid black;
-      }
-      .notie-container{
-        box-shadow: black;
-      }
-    </style>
+       <link rel="stylesheet" type="text/css" href="./static/css/styles.css">
   </head>
   <body class="body">
 
@@ -206,9 +188,18 @@
         //notify("This is a success message", "success")
         //notifyModal("title","<em> hello, world<em>", "success", "wsd")
         let html=`
-          
+        <form id="check-availability-form" action="" method="POST" novalidate class="needs-validation">
+    <div class="form-row">
+        <div class="col">
+            <div class="form-row" id="registra">
+                <input type="btn btn-outline-secondary">
+                <input type="btn btn-outline-primary">
+            </div>
+        </div>
+    </div>
+</form>
         `
-        attention.error({msg: "oops"});  
+        attention.custom({msg: html});  
     })
 
     function notify(msg,msgType){

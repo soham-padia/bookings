@@ -1,0 +1,15 @@
+body{
+    background-color: #2e2b3e;
+    color: blanchedalmond;
+  }
+  .my-footer{
+    background-color: #2e2b3e;
+    margin-top: 1.5em;
+    height: 4em;
+    padding: 1em;
+    font-size: 80%;
+    border: 2px solid black;
+  }
+  .notie-container{
+    box-shadow: black;
+  }
