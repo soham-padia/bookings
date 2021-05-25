@@ -24,6 +24,7 @@
             
 
           <div class="mb-3">
+            <input type="text" name="csrf_token" value="{{.CSRFToken}}">
             <label for="exampleInputEmail1" class="form-label">Email address</label>
             <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp" required>
             <div id="emailHelp" class="form-text">Enter email</div>
@@ -38,7 +39,7 @@
             <button type="submit" class="btn btn-primary">Submit</button>
             <a class="btn btn-outline-danger" href="./register.html">Not registered? click here</a>
           </div>
-          <input type="text" name="csrf_token" value="{{.CSRFToken}}">
+          
         </form>
       </div>
 
