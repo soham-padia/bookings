@@ -32,7 +32,7 @@ func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
 	//fmt.Println(remoteIP)
 	m.App.Session.Put(r.Context(), "remote_ip", remoteIP)
 
-	render.RenderTemplate(w, "home.page.html", &models.TemplateData{})
+	render.RenderTemplate(w, r, "home.page.html", &models.TemplateData{})
 }
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 
@@ -42,29 +42,36 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 	remoteIp := m.App.Session.GetString(r.Context(), "remote_ip")
 	stringMap["remote_ip"] = remoteIp
 
-	render.RenderTemplate(w, "about.page.html", &models.TemplateData{
+	render.RenderTemplate(w, r, "about.page.html", &models.TemplateData{
 		StringMap: stringMap,
 	})
 }
 
 func (m *Repository) Pc(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "pc.page.html", &models.TemplateData{})
+	render.RenderTemplate(w, r, "pc.page.html", &models.TemplateData{})
 }
 func (m *Repository) Phone(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "phone.page.html", &models.TemplateData{})
+	render.RenderTemplate(w, r, "phone.page.html", &models.TemplateData{})
 }
 func (m *Repository) Laptop(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "laptop.page.html", &models.TemplateData{})
+	render.RenderTemplate(w, r, "laptop.page.html", &models.TemplateData{})
 }
 func (m *Repository) Download(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "download.page.html", &models.TemplateData{})
+	render.RenderTemplate(w, r, "download.page.html", &models.TemplateData{})
 }
 func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "contact.page.html", &models.TemplateData{})
+	render.RenderTemplate(w, r, "contact.page.html", &models.TemplateData{})
 }
 func (m *Repository) Docs(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "docs.page.html", &models.TemplateData{})
+	render.RenderTemplate(w, r, "docs.page.html", &models.TemplateData{})
 }
 func (m *Repository) Donate(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, "donate.page.html", &models.TemplateData{})
+	render.RenderTemplate(w, r, "donate.page.html", &models.TemplateData{})
+}
+func (m *Repository) Login(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, r, "log.page.html", &models.TemplateData{})
+}
+
+func (m *Repository) PostLogin(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Posted to seach availibility"))
 }

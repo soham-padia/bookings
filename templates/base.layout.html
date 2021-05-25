@@ -49,7 +49,7 @@
 
             <a class="navbar-brand"></a>
           </ul>
-          <a href="./login.html" class="btn btn-outline-secondary" role="button" >Login to view your details</a>
+          <a href="/login" class="btn btn-outline-secondary" role="button" >Login to view your details</a>
         </div>
       </div>
     </nav>
@@ -115,23 +115,7 @@
                   })
               })()
       
-          document.getElementById("swale").addEventListener("click", function(){
-              //notify("This is a success message", "success")
-              //notifyModal("title","<em> hello, world<em>", "success", "wsd")
-              let html=`
-              <form id="check-availability-form" action="" method="POST" novalidate class="needs-validation">
-          <div class="form-row">
-              <div class="col">
-                  <div class="form-row" id="registra">
-                      <input type="btn btn-outline-secondary">
-                      <input type="btn btn-outline-primary">
-                  </div>
-              </div>
-          </div>
-      </form>
-              `
-              attention.custom({msg: html});  
-          })
+          
       
           function notify(msg,msgType){
             notie.alert({
