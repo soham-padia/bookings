@@ -21,7 +21,7 @@
 
 
         <form action="/login" method="POST">
-            <input type="text" name="csrf_token" value="{{.CSRFToken}}">
+            
 
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Email address</label>
@@ -38,7 +38,7 @@
             <button type="submit" class="btn btn-primary">Submit</button>
             <a class="btn btn-outline-danger" href="./register.html">Not registered? click here</a>
           </div>
-
+          <input type="text" name="csrf_token" value="{{.CSRFToken}}">
         </form>
       </div>
 
