@@ -1,6 +1,9 @@
 package handlers
 
 import (
+	"encoding/json"
+	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/solow-crypt/bookings/pkg/config"
@@ -71,7 +74,40 @@ func (m *Repository) Donate(w http.ResponseWriter, r *http.Request) {
 func (m *Repository) Login(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, r, "log.page.html", &models.TemplateData{})
 }
+func (m *Repository) Register(w http.ResponseWriter, r *http.Request) {
+	render.RenderTemplate(w, r, "reg.page.html", &models.TemplateData{})
+}
 
 func (m *Repository) PostLogin(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Posted to seach availibility"))
+	email := r.Form.Get("email")
+	password := r.Form.Get("password")
+	w.Write([]byte(fmt.Sprintf("email: %s , password: %s", email, password)))
+}
+
+type jsonRequest struct {
+	OK      bool   `json:"ok"`
+	Message string `json:"message"`
+}
+
+func (m *Repository) LoginJSON(w http.ResponseWriter, r *http.Request) {
+	resp := jsonRequest{
+		OK:      true,
+		Message: "available",
+	}
+
+	out, err := json.MarshalIndent(resp, "", "     ")
+
+	if err != nil {
+		log.Println(err)
+	}
+
+	log.Println(string(out))
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(out)
+
+}
+
+func (m *Repository) RegisterJSON(w http.ResponseWriter, r *http.Request) {
+
 }

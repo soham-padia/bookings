@@ -1,0 +1,80 @@
+{{template "base" .}}
+
+{{define "content"}}
+
+<div class="container">
+
+
+
+    <div class="row">
+
+      <div class="col">
+        <h1>Register</h1>
+        <form method="POST" action="" class="registration needs-validation" novalidate>
+          <div class="row">  
+
+              <div class="col-md-1"></div>
+              
+              <div class="col-md-5">
+                  <div class="form-group mt-5">
+                      <label for="first-name">First name:</label>
+                      <input type="text" name="first-name" id="first-name" class="form-control" required autocomplete="off">
+                      <div class="valid-feedback">Looks Good!</div>
+                      <div class="invalid-feedback">Enter first name please</div>
+                  </div>
+                  <div class="form-group mt-5">
+                      <label for="email">Email:</label>
+                      <input type="email" name="email" id="email" class="form-control" required autocomplete="off">
+                      <div class="valid-feedback">Looks Good!</div>
+                      <div class="invalid-feedback">Enter email please</div>
+                  </div>
+              </div>
+              <div class="col-md-5">
+                  <div class="form-group mt-5">
+                      <label for="last-name">Last name:   </label>
+                      <input type="text" name="Last-name" id="Last-name" class="form-control" required autocomplete="off">
+                      <div class="valid-feedback">Looks Good!</div>
+                      <div class="invalid-feedback">Enter last name please</div>
+                  </div>
+                  <div class="form-group mt-5">
+                      <label for="phone">Phone Number:</label>
+                      <input type="text" name="phone" id="phone" required class="form-control" autocomplete="off">
+                      <div class="valid-feedback">Looks Good!</div>
+                      <div class="invalid-feedback">Enter phone number please</div>
+                  </div>
+                  <div class="form-group mt-5">
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" id="password" class="form-control" required autocomplete="off">
+                    <div class="valid-feedback">Looks Good!</div>
+                    <div class="invalid-feedback">Enter email please</div>
+                  </div>
+              </div>
+              
+              
+              
+
+          </div> 
+          <div class="row mt-5">
+              <div class="col-md-9"></div>
+              <div class="col-md-2 ">
+                  <input type="submit" id="colorButton" class="btn btn-outline-danger" value="Make Registration">
+              </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <p id="myParagraph">This is some text</p>
+        </div>
+    </div> 
+
+  </div>
+
+{{end}}
+
+{{define "js"}}
+
+{{end}}

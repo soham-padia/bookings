@@ -40,11 +40,10 @@ func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, td *mod
 	if !ok {
 		log.Fatal("error1")
 	}
+	td = AddDefaultData(td, r)
 
 	buf := new(bytes.Buffer)
 	_ = t.Execute(buf, td)
-
-	td = AddDefaultData(td, r)
 
 	_, err := buf.WriteTo(w)
 
