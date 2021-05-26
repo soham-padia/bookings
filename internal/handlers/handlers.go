@@ -6,9 +6,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/solow-crypt/bookings/pkg/config"
-	"github.com/solow-crypt/bookings/pkg/models"
-	"github.com/solow-crypt/bookings/pkg/render"
+	"github.com/solow-crypt/bookings/internal/config"
+	"github.com/solow-crypt/bookings/internal/models"
+	"github.com/solow-crypt/bookings/internal/render"
 )
 
 //TemplateData holds data sent from handlers to templates
@@ -109,5 +109,19 @@ func (m *Repository) LoginJSON(w http.ResponseWriter, r *http.Request) {
 }
 
 func (m *Repository) RegisterJSON(w http.ResponseWriter, r *http.Request) {
+	resp := jsonRequest{
+		OK:      true,
+		Message: "available",
+	}
 
+	out, err := json.MarshalIndent(resp, "", "     ")
+
+	if err != nil {
+		log.Println(err)
+	}
+
+	log.Println(string(out))
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(out)
 }

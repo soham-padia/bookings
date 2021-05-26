@@ -5,8 +5,8 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/solow-crypt/bookings/pkg/config"
-	"github.com/solow-crypt/bookings/pkg/handlers"
+	"github.com/solow-crypt/bookings/internal/config"
+	"github.com/solow-crypt/bookings/internal/handlers"
 )
 
 func routes(app *config.AppConfig) http.Handler {
@@ -31,6 +31,7 @@ func routes(app *config.AppConfig) http.Handler {
 
 	mux.Post("/login", handlers.Repo.PostLogin)
 	mux.Get("/login-json", handlers.Repo.LoginJSON)
+	mux.Post("/register-json", handlers.Repo.RegisterJSON)
 
 	fileServer := http.FileServer(http.Dir("./static/"))
 	mux.Handle("/static/*", http.StripPrefix("/static", fileServer))

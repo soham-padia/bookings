@@ -10,8 +10,8 @@
 
       <div class="col">
         <h1>Register</h1>
-        <form method="POST" action="" class="registration needs-validation" novalidate>
-          <div class="row">  
+        <!-- <form method="GET" action="" class="registration needs-validation" novalidate>
+          <div class="form-row" id="registration-modal">  
 
               <div class="col-md-1"></div>
               
@@ -32,7 +32,7 @@
               <div class="col-md-5">
                   <div class="form-group mt-5">
                       <label for="last-name">Last name:   </label>
-                      <input type="text" name="Last-name" id="Last-name" class="form-control" required autocomplete="off">
+                      <input type="text" name="Last-name" id="last-name" class="form-control" required autocomplete="off">
                       <div class="valid-feedback">Looks Good!</div>
                       <div class="invalid-feedback">Enter last name please</div>
                   </div>
@@ -49,32 +49,99 @@
                     <div class="invalid-feedback">Enter email please</div>
                   </div>
               </div>
-              
-              
-              
+            
+        </form> -->
 
-          </div> 
-          <div class="row mt-5">
-              <div class="col-md-9"></div>
-              <div class="col-md-2 ">
-                  <input type="submit" id="colorButton" class="btn btn-outline-danger" value="Make Registration">
-              </div>
-          </div>
-        </form>
+        <p>
+            Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
+            to remember.
+            Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
+            to remember.
+            Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
+            to remember.
+            Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
+            to remember.
+            Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
+            to remember.
+            Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
+            to remember.
+        </p>
       </div>
 
     </div>
 
     <div class="row">
-        <div class="col">
-            <p id="myParagraph">This is some text</p>
+
+        <div class="col text-center">
+
+            <a id="regButton" href="#!" class="btn btn-outline-danger">Register</a>
+
         </div>
-    </div> 
+    </div>
 
   </div>
 
 {{end}}
 
 {{define "js"}}
+
+<script>
+    document.getElementById("regButton").addEventListener("click", function (){
+        console.log("pass");
+        let html = `
+        <form method="GET" action="" class="registration needs-validation" novalidate>
+          <div class="row" id="registration-modal">  
+
+              <div class="col-md-1"></div>
+              
+              <div class="col-md-5">
+                  <div class="form-group mt-5">
+                      <label for="first-name">First name:</label>
+                      <input type="text" name="first-name" id="first-name" class="form-control" required autocomplete="off" placeholder="firstname">
+                      <div class="valid-feedback">Looks Good!</div>
+                      <div class="invalid-feedback">Enter first name please</div>
+                  </div>
+                  <div class="form-group mt-5">
+                      <label for="email">Email:</label>
+                      <input type="email" name="email" id="email" class="form-control" required autocomplete="off" placeholder="email">
+                      <div class="valid-feedback">Looks Good!</div>
+                      <div class="invalid-feedback">Enter email please</div>
+                  </div>
+              </div>
+              <div class="col-md-5">
+                  <div class="form-group mt-5">
+                      <label for="last-name">Last name:   </label>
+                      <input type="text" name="Last-name" id="last-name" class="form-control" required autocomplete="off" placeholder="lastname">
+                      <div class="valid-feedback">Looks Good!</div>
+                      <div class="invalid-feedback">Enter last name please</div>
+                  </div>
+                  <div class="form-group mt-5">
+                      <label for="phone">Phone Number:</label>
+                      <input type="text" name="phone" id="phone" required class="form-control" autocomplete="off" placeholder="phone">
+                      <div class="valid-feedback">Looks Good!</div>
+                      <div class="invalid-feedback">Enter phone number please</div>
+                  </div>
+                  <div class="form-group mt-5">
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" id="password" class="form-control" required autocomplete="off" placeholder="password">
+                    <div class="valid-feedback">Looks Good!</div>
+                    <div class="invalid-feedback">Enter email please</div>
+                  </div>
+              </div>
+              
+              
+              
+
+          </div> 
+          
+        </form>
+        `;
+        attention.custom({
+            msg:html,
+            title:"nigga",
+        });
+       
+    })
+</script>
 
 {{end}}

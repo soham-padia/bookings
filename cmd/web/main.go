@@ -3,16 +3,17 @@ package main
 import (
 	"fmt"
 	"log"
+
 	"net/http"
 	"time"
 
 	"github.com/alexedwards/scs/v2"
-	"github.com/solow-crypt/bookings/pkg/config"
-	"github.com/solow-crypt/bookings/pkg/handlers"
-	"github.com/solow-crypt/bookings/pkg/render"
+	"github.com/solow-crypt/bookings/internal/config"
+	"github.com/solow-crypt/bookings/internal/handlers"
+	"github.com/solow-crypt/bookings/internal/render"
 )
 
-const portNumber = ":8080"
+const portNumber = ":8081"
 
 var app config.AppConfig
 var session *scs.SessionManager

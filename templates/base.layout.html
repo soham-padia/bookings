@@ -7,6 +7,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
     crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.css">
     <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
   </head>
   <body class="body">
@@ -60,9 +62,7 @@
 
 
 
-        {{block "js" .}}
         
-        {{end}}
 
         <div class="row my-footer">
             <div class="col">
@@ -201,12 +201,17 @@
                 backdrop:false,
                 focusConfirm: false,
                 showCancelButton: true,
+                background:'#2e2b3e',
+                cancelButtonColor: '#d33',
+                // willOpen:() => {
+                //   const elem = document.getElementById('registration-modal')
+                // },
                 preConfirm: () => {
-                  return [
-                    document.getElementById('swal-input1').value,
-                    document.getElementById('swal-input2').value
-                  ]
-                }
+                        return [
+                            document.getElementById('first-name').value,
+                            document.getElementById('last-name').value
+                        ]
+                    }
               })
       
               if (result){
@@ -228,6 +233,7 @@
               toast: toast,
               success:success,
               error:error,
+              custom:custom,
             }
           }
           

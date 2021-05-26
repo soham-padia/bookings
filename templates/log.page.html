@@ -37,7 +37,7 @@
 
           <div class="col">
             <button type="submit" class="btn btn-primary">Submit</button>
-            <a class="btn btn-outline-danger" href="/register">Not registered? click here</a>
+            <a class="btn btn-outline-danger" id="regButton" href="#">Not registered? click here</a>
           </div>
           
         </form>
@@ -48,5 +48,85 @@
 
 
   </div>
+
+{{end}}
+
+{{define "js"}}
+
+<script>
+    document.getElementById("regButton").addEventListener("click", function (){
+        console.log("pass");
+        let html = `
+        <form method="POST" action="" id="registration-form" class="registration needs-validation"  novalidate>
+          <div class="row">  
+
+              <div class="col-md-1"></div>
+              
+              <div class="col-md-5">
+                  <div class="form-group mt-5">
+                      <label for="first-name">First name:</label>
+                      <input type="text" name="first-name" id="first-name" class="form-control" required  placeholder="firstname">
+                      <div class="valid-feedback">Looks Good!</div>
+                      <div class="invalid-feedback">Enter first name please</div>
+                  </div>
+                  <div class="form-group mt-5">
+                      <label for="email">Email:</label>
+                      <input type="email" name="email" id="email" class="form-control" required  placeholder="email">
+                      <div class="valid-feedback">Looks Good!</div>
+                      <div class="invalid-feedback">Enter email please</div>
+                  </div>
+              </div>
+              <div class="col-md-5">
+                  <div class="form-group mt-5">
+                      <label for="last-name">Last name:   </label>
+                      <input type="text" name="Last-name" id="last-name" class="form-control" required  placeholder="lastname">
+                      <div class="valid-feedback">Looks Good!</div>
+                      <div class="invalid-feedback">Enter last name please</div>
+                  </div>
+                  <div class="form-group mt-5">
+                      <label for="phone">Phone Number:</label>
+                      <input type="text" name="phone" id="phone" required class="form-control"  placeholder="phone">
+                      <div class="valid-feedback">Looks Good!</div>
+                      <div class="invalid-feedback">Enter phone number please</div>
+                  </div>
+                  <div class="form-group mt-5">
+                    <label for="password">Password:</label>
+                    <input type="password" name="password" id="password" class="form-control" required  placeholder="password">
+                    <div class="valid-feedback">Looks Good!</div>
+                    <div class="invalid-feedback">Enter email please</div>
+                  </div>
+              </div>
+              
+              
+              
+
+          </div> 
+          
+        </form>
+        `;
+        attention.custom({
+            msg:html,
+            title:"REGISTER",
+            callback: function(result){
+              console.log("called");
+
+              let form = document.getElementById("registration-form");
+              let formData = new FormData(form);
+              formData.append("csrf_token", "{{.CSRFToken}}");
+
+              fetch('/register-json',{
+                method:"post",
+                body:formData,
+
+              })
+                .then(response => response.json())
+                .then(data => {
+                  console.log(data);
+                })
+            }
+        });
+       
+    })
+</script>
 
 {{end}}
