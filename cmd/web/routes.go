@@ -27,10 +27,12 @@ func routes(app *config.AppConfig) http.Handler {
 	mux.Get("/docs", handlers.Repo.Docs)
 	mux.Get("/donate", handlers.Repo.Donate)
 	mux.Get("/login", handlers.Repo.Login)
-	mux.Get("/register", handlers.Repo.Register)
 
 	mux.Post("/login", handlers.Repo.PostLogin)
 	mux.Get("/login-json", handlers.Repo.LoginJSON)
+
+	mux.Get("/register", handlers.Repo.Register)
+	mux.Post("/register", handlers.Repo.PostRegistration)
 	mux.Post("/register-json", handlers.Repo.RegisterJSON)
 
 	fileServer := http.FileServer(http.Dir("./static/"))

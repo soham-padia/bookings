@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/solow-crypt/bookings/internal/config"
+	"github.com/solow-crypt/bookings/internal/forms"
 	"github.com/solow-crypt/bookings/internal/models"
 	"github.com/solow-crypt/bookings/internal/render"
 )
@@ -74,9 +75,6 @@ func (m *Repository) Donate(w http.ResponseWriter, r *http.Request) {
 func (m *Repository) Login(w http.ResponseWriter, r *http.Request) {
 	render.RenderTemplate(w, r, "log.page.html", &models.TemplateData{})
 }
-func (m *Repository) Register(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "reg.page.html", &models.TemplateData{})
-}
 
 func (m *Repository) PostLogin(w http.ResponseWriter, r *http.Request) {
 	email := r.Form.Get("email")
@@ -106,6 +104,51 @@ func (m *Repository) LoginJSON(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(out)
 
+}
+
+func (m *Repository) Register(w http.ResponseWriter, r *http.Request) {
+	var emptyRegistration models.Registration
+	data := make(map[string]interface{})
+	data["register"] = emptyRegistration
+
+	render.RenderTemplate(w, r, "reg.page.html", &models.TemplateData{
+		Form: forms.New(nil),
+		Data: data,
+	})
+}
+
+func (m *Repository) PostRegistration(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	registration := models.Registration{
+		Firstname: r.Form.Get("first-name"),
+		Lastname:  r.Form.Get("last-name"),
+		Email:     r.Form.Get("email"),
+		Phone:     r.Form.Get("phone"),
+		Password:  r.Form.Get("password"),
+		Password2: r.Form.Get("passwordre"),
+	}
+
+	form := forms.New(r.PostForm)
+
+	form.Required("first-name", "last-name", "phone", "email", "password", "passwordre")
+	form.MinLength("first-name", 3, r)
+	form.IsEmail("email")
+
+	if !form.Valid() {
+		data := make(map[string]interface{})
+		data["register"] = registration
+
+		render.RenderTemplate(w, r, "reg.page.html", &models.TemplateData{
+			Form: form,
+			Data: data,
+		})
+		return
+	}
 }
 
 func (m *Repository) RegisterJSON(w http.ResponseWriter, r *http.Request) {

@@ -13,7 +13,7 @@ import (
 	"github.com/solow-crypt/bookings/internal/render"
 )
 
-const portNumber = ":8081"
+const portNumber = ":8080"
 
 var app config.AppConfig
 var session *scs.SessionManager

@@ -4,55 +4,74 @@
 
 <div class="container">
 
-
-
     <div class="row">
 
       <div class="col">
         <h1>Register</h1>
-        <!-- <form method="GET" action="" class="registration needs-validation" novalidate>
-          <div class="form-row" id="registration-modal">  
 
-              <div class="col-md-1"></div>
-              
-              <div class="col-md-5">
-                  <div class="form-group mt-5">
-                      <label for="first-name">First name:</label>
-                      <input type="text" name="first-name" id="first-name" class="form-control" required autocomplete="off">
-                      <div class="valid-feedback">Looks Good!</div>
-                      <div class="invalid-feedback">Enter first name please</div>
-                  </div>
-                  <div class="form-group mt-5">
-                      <label for="email">Email:</label>
-                      <input type="email" name="email" id="email" class="form-control" required autocomplete="off">
-                      <div class="valid-feedback">Looks Good!</div>
-                      <div class="invalid-feedback">Enter email please</div>
-                  </div>
-              </div>
-              <div class="col-md-5">
-                  <div class="form-group mt-5">
-                      <label for="last-name">Last name:   </label>
-                      <input type="text" name="Last-name" id="last-name" class="form-control" required autocomplete="off">
-                      <div class="valid-feedback">Looks Good!</div>
-                      <div class="invalid-feedback">Enter last name please</div>
-                  </div>
-                  <div class="form-group mt-5">
-                      <label for="phone">Phone Number:</label>
-                      <input type="text" name="phone" id="phone" required class="form-control" autocomplete="off">
-                      <div class="valid-feedback">Looks Good!</div>
-                      <div class="invalid-feedback">Enter phone number please</div>
-                  </div>
-                  <div class="form-group mt-5">
-                    <label for="password">Password:</label>
-                    <input type="password" name="password" id="password" class="form-control" required autocomplete="off">
-                    <div class="valid-feedback">Looks Good!</div>
-                    <div class="invalid-feedback">Enter email please</div>
-                  </div>
-              </div>
+        {{$res := index .Data "register"}}
+        <form action="/register" method="POST" class="" novalidate>
+            <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+
+           
+            <div class="form-group mt-5">
+                <label for="first-name">First name:</label>
+                {{with .Form.Errors.Get "first-name"}}
+                    <label class="text-danger" for="">{{.}}</label>
+                {{end}}
+                <input type="text" name="first-name" id="first-name" value="{{$res.Firstname}}" class="form-control {{with .Form.Errors.Get "first-name"}} is-invalid {{end}}" required autocomplete="off">
+                <div class="valid-feedback">Looks Good!</div>
+            </div>
+            <div class="form-group mt-3">
+                <label for="last-name">Last name:</label>
+                {{with .Form.Errors.Get "last-name"}}
+                    <label class="text-danger" for="">{{.}}</label>
+                {{end}}
+                <input type="text" name="last-name" id="last-name" value="{{$res.Lastname}}" class="form-control {{with .Form.Errors.Get "last-name"}} is-invalid {{end}}" required autocomplete="off">
+                <div class="valid-feedback">Looks Good!</div>
+            </div>
+            <div class="form-group mt-3">
+                <label for="email">Email:</label>
+                {{with .Form.Errors.Get "email"}}
+                    <label class="text-danger" for="">{{.}}</label>
+                {{end}}
+                <input type="email" name="email" id="email" value="{{$res.Email}}" class="form-control {{with .Form.Errors.Get "email"}} is-invalid {{end}}" required autocomplete="off">
+                <div class="valid-feedback">Looks Good!</div>
+            </div>
+            <div class="form-group mt-3">
+                <label for="phone">Phone Number:</label>
+                {{with .Form.Errors.Get "phone"}}
+                    <label class="text-danger" for="">{{.}}</label>
+                {{end}}
+                <input type="text" name="phone" id="phone" required value="{{$res.Phone}}" class="form-control {{with .Form.Errors.Get "phone"}} is-invalid {{end}}" autocomplete="off">
+                <div class="valid-feedback">Looks Good!</div>
+            </div>
+            <div class="form-group mt-3">
+                <label for="password">Password:</label>
+                {{with .Form.Errors.Get "password"}}
+                    <label class="text-danger" for="">{{.}}</label>
+                {{end}}
+                <input type="password" name="password" id="password" value="{{$res.Password}}" class="form-control {{with .Form.Errors.Get "password"}} is-invalid {{end}}" required autocomplete="off">
+                <div class="valid-feedback">Looks Good!</div>
+            </div>
+            <div class="form-group mt-3">
+                <label for="password">Re-enter Password:</label>
+                {{with .Form.Errors.Get "passwordre"}}
+                    <label class="text-danger" for="">{{.}}</label>
+                {{end}}
+                <input type="password" name="passwordre" id="passwordre" value="{{$res.Password2}}" class="form-control {{with .Form.Errors.Get "passwordre"}} is-invalid {{end}}" required autocomplete="off">
+                <div class="valid-feedback">Looks Good!</div>
+            </div>
             
-        </form> -->
+            
+            <hr>
 
-        <p>
+            <input type="submit" class="btn btn-outline-danger" value="Make Registeration">
+            
+            
+        </form>
+
+        <!-- <p>
             Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
             to remember.
             Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
@@ -65,83 +84,28 @@
             to remember.
             Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
             to remember.
-        </p>
+        </p> -->
       </div>
 
     </div>
 
-    <div class="row">
+    <!-- <div class="row ">
+    
 
         <div class="col text-center">
-
-            <a id="regButton" href="#!" class="btn btn-outline-danger">Register</a>
+            
+            <hr>
+            <a id="regButton" href="#!" class="btn btn-outline-danger">Register</a> 
+            <a id="regButt"  href="#!" class="btn btn-outline-danger">Register</a>
 
         </div>
-    </div>
+    </div> -->
 
   </div>
+</div>
 
 {{end}}
 
 {{define "js"}}
-
-<script>
-    document.getElementById("regButton").addEventListener("click", function (){
-        console.log("pass");
-        let html = `
-        <form method="GET" action="" class="registration needs-validation" novalidate>
-          <div class="row" id="registration-modal">  
-
-              <div class="col-md-1"></div>
-              
-              <div class="col-md-5">
-                  <div class="form-group mt-5">
-                      <label for="first-name">First name:</label>
-                      <input type="text" name="first-name" id="first-name" class="form-control" required autocomplete="off" placeholder="firstname">
-                      <div class="valid-feedback">Looks Good!</div>
-                      <div class="invalid-feedback">Enter first name please</div>
-                  </div>
-                  <div class="form-group mt-5">
-                      <label for="email">Email:</label>
-                      <input type="email" name="email" id="email" class="form-control" required autocomplete="off" placeholder="email">
-                      <div class="valid-feedback">Looks Good!</div>
-                      <div class="invalid-feedback">Enter email please</div>
-                  </div>
-              </div>
-              <div class="col-md-5">
-                  <div class="form-group mt-5">
-                      <label for="last-name">Last name:   </label>
-                      <input type="text" name="Last-name" id="last-name" class="form-control" required autocomplete="off" placeholder="lastname">
-                      <div class="valid-feedback">Looks Good!</div>
-                      <div class="invalid-feedback">Enter last name please</div>
-                  </div>
-                  <div class="form-group mt-5">
-                      <label for="phone">Phone Number:</label>
-                      <input type="text" name="phone" id="phone" required class="form-control" autocomplete="off" placeholder="phone">
-                      <div class="valid-feedback">Looks Good!</div>
-                      <div class="invalid-feedback">Enter phone number please</div>
-                  </div>
-                  <div class="form-group mt-5">
-                    <label for="password">Password:</label>
-                    <input type="password" name="password" id="password" class="form-control" required autocomplete="off" placeholder="password">
-                    <div class="valid-feedback">Looks Good!</div>
-                    <div class="invalid-feedback">Enter email please</div>
-                  </div>
-              </div>
-              
-              
-              
-
-          </div> 
-          
-        </form>
-        `;
-        attention.custom({
-            msg:html,
-            title:"nigga",
-        });
-       
-    })
-</script>
 
 {{end}}
