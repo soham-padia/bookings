@@ -10,6 +10,11 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.css">
     <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+    <style>
+      .textcol{
+        background-color: burlywood;
+      }
+    </style>
   </head>
   <body class="body">
 
@@ -131,7 +136,15 @@
                   
               })
           }
-      
+
+          {{with .Error}}
+          notify("{{.}}","error")
+          {{end}}
+
+          {{with .Flash}}
+          notify("{{.}}","flash")
+          {{end}}
+
           function Promt(){
             let toast=function(c){
               const{

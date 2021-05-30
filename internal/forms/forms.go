@@ -60,3 +60,9 @@ func (f *Form) IsEmail(field string) {
 		f.Errors.Add(field, "Invalid email address")
 	}
 }
+
+func (f *Form) IsPhoneNumber(field string) {
+	if !govalidator.IsNumeric(f.Get(field)) {
+		f.Errors.Add(field, "Invalid phone number")
+	}
+}

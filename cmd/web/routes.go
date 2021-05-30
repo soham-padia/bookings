@@ -34,6 +34,7 @@ func routes(app *config.AppConfig) http.Handler {
 	mux.Get("/register", handlers.Repo.Register)
 	mux.Post("/register", handlers.Repo.PostRegistration)
 	mux.Post("/register-json", handlers.Repo.RegisterJSON)
+	mux.Get("/registration-summary", handlers.Repo.RegistrationSummary)
 
 	fileServer := http.FileServer(http.Dir("./static/"))
 	mux.Handle("/static/*", http.StripPrefix("/static", fileServer))

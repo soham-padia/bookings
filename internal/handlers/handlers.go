@@ -36,7 +36,7 @@ func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
 	//fmt.Println(remoteIP)
 	m.App.Session.Put(r.Context(), "remote_ip", remoteIP)
 
-	render.RenderTemplate(w, r, "home.page.html", &models.TemplateData{})
+	render.RenderTemplate(w, r, "home.page.tmpl", &models.TemplateData{})
 }
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 
@@ -46,34 +46,34 @@ func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 	remoteIp := m.App.Session.GetString(r.Context(), "remote_ip")
 	stringMap["remote_ip"] = remoteIp
 
-	render.RenderTemplate(w, r, "about.page.html", &models.TemplateData{
+	render.RenderTemplate(w, r, "about.page.tmpl", &models.TemplateData{
 		StringMap: stringMap,
 	})
 }
 
 func (m *Repository) Pc(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "pc.page.html", &models.TemplateData{})
+	render.RenderTemplate(w, r, "pc.page.tmpl", &models.TemplateData{})
 }
 func (m *Repository) Phone(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "phone.page.html", &models.TemplateData{})
+	render.RenderTemplate(w, r, "phone.page.tmpl", &models.TemplateData{})
 }
 func (m *Repository) Laptop(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "laptop.page.html", &models.TemplateData{})
+	render.RenderTemplate(w, r, "laptop.page.tmpl", &models.TemplateData{})
 }
 func (m *Repository) Download(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "download.page.html", &models.TemplateData{})
+	render.RenderTemplate(w, r, "download.page.tmpl", &models.TemplateData{})
 }
 func (m *Repository) Contact(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "contact.page.html", &models.TemplateData{})
+	render.RenderTemplate(w, r, "contact.page.tmpl", &models.TemplateData{})
 }
 func (m *Repository) Docs(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "docs.page.html", &models.TemplateData{})
+	render.RenderTemplate(w, r, "docs.page.tmpl", &models.TemplateData{})
 }
 func (m *Repository) Donate(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "donate.page.html", &models.TemplateData{})
+	render.RenderTemplate(w, r, "donate.page.tmpl", &models.TemplateData{})
 }
 func (m *Repository) Login(w http.ResponseWriter, r *http.Request) {
-	render.RenderTemplate(w, r, "log.page.html", &models.TemplateData{})
+	render.RenderTemplate(w, r, "log.page.tmpl", &models.TemplateData{})
 }
 
 func (m *Repository) PostLogin(w http.ResponseWriter, r *http.Request) {
@@ -111,7 +111,7 @@ func (m *Repository) Register(w http.ResponseWriter, r *http.Request) {
 	data := make(map[string]interface{})
 	data["register"] = emptyRegistration
 
-	render.RenderTemplate(w, r, "reg.page.html", &models.TemplateData{
+	render.RenderTemplate(w, r, "reg.page.tmpl", &models.TemplateData{
 		Form: forms.New(nil),
 		Data: data,
 	})
@@ -138,17 +138,22 @@ func (m *Repository) PostRegistration(w http.ResponseWriter, r *http.Request) {
 	form.Required("first-name", "last-name", "phone", "email", "password", "passwordre")
 	form.MinLength("first-name", 3, r)
 	form.IsEmail("email")
+	form.IsPhoneNumber("phone")
 
 	if !form.Valid() {
 		data := make(map[string]interface{})
 		data["register"] = registration
 
-		render.RenderTemplate(w, r, "reg.page.html", &models.TemplateData{
+		render.RenderTemplate(w, r, "reg.page.tmpl", &models.TemplateData{
 			Form: form,
 			Data: data,
 		})
 		return
 	}
+
+	m.App.Session.Put(r.Context(), "registration", registration)
+
+	http.Redirect(w, r, "/registration-summary", http.StatusSeeOther)
 }
 
 func (m *Repository) RegisterJSON(w http.ResponseWriter, r *http.Request) {
@@ -167,4 +172,22 @@ func (m *Repository) RegisterJSON(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(out)
+}
+
+func (m *Repository) RegistrationSummary(w http.ResponseWriter, r *http.Request) {
+
+	registration, ok := m.App.Session.Get(r.Context(), "registration").(models.Registration)
+	if !ok {
+		log.Println("cannot get item from session")
+		m.App.Session.Put(r.Context(), "error", "Cant get reservation from session")
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		return
+	}
+
+	data := make(map[string]interface{})
+	data["registration"] = registration
+
+	render.RenderTemplate(w, r, "reg.summary.page.tmpl", &models.TemplateData{
+		Data: data,
+	})
 }

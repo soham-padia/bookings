@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/gob"
 	"fmt"
 	"log"
 
@@ -10,6 +11,7 @@ import (
 	"github.com/alexedwards/scs/v2"
 	"github.com/solow-crypt/bookings/internal/config"
 	"github.com/solow-crypt/bookings/internal/handlers"
+	"github.com/solow-crypt/bookings/internal/models"
 	"github.com/solow-crypt/bookings/internal/render"
 )
 
@@ -19,6 +21,8 @@ var app config.AppConfig
 var session *scs.SessionManager
 
 func main() {
+
+	gob.Register(models.Registration{})
 
 	//change this to true when in  production
 	app.InProduction = false
