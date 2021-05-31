@@ -179,10 +179,12 @@ func (m *Repository) RegistrationSummary(w http.ResponseWriter, r *http.Request)
 	registration, ok := m.App.Session.Get(r.Context(), "registration").(models.Registration)
 	if !ok {
 		log.Println("cannot get item from session")
-		m.App.Session.Put(r.Context(), "error", "Cant get reservation from session")
+		m.App.Session.Put(r.Context(), "error", "Cant get registration summary")
 		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
 		return
 	}
+
+	m.App.Session.Remove(r.Context(), "registration")
 
 	data := make(map[string]interface{})
 	data["registration"] = registration

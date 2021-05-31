@@ -7,12 +7,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
     crossorigin="anonymous">
-
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/notie/dist/notie.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.15.5/dist/sweetalert2.min.css">
     <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
     <style>
       .textcol{
         background-color: burlywood;
+      }
+      .dark{
+        background-color: #2e2b3e;
       }
     </style>
   </head>
@@ -141,8 +144,12 @@
           notify("{{.}}","error")
           {{end}}
 
-          {{with .Flash}}
-          notify("{{.}}","flash")
+          {{with .FlashMessage}}
+          notify("{{.}}","success")
+          {{end}}
+
+          {{with .Warning}}
+          notify("{{.}}","warning")
           {{end}}
 
           function Promt(){

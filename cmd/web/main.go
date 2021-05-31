@@ -22,6 +22,24 @@ var session *scs.SessionManager
 
 func main() {
 
+	err := run()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("starting at port", portNumber)
+
+	serve := &http.Server{
+		Addr:    portNumber,
+		Handler: routes(&app),
+	}
+
+	err = serve.ListenAndServe()
+	log.Fatal(err)
+}
+
+func run() error {
 	gob.Register(models.Registration{})
 
 	//change this to true when in  production
@@ -38,6 +56,7 @@ func main() {
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
 		log.Fatal("cannot create template")
+		return err
 	}
 
 	app.TemplateCache = tc
@@ -50,13 +69,5 @@ func main() {
 
 	render.NewTemplates(&app)
 
-	fmt.Println("starting at port", portNumber)
-
-	serve := &http.Server{
-		Addr:    portNumber,
-		Handler: routes(&app),
-	}
-
-	err = serve.ListenAndServe()
-	log.Fatal(err)
+	return nil
 }
