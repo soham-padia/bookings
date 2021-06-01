@@ -7,6 +7,7 @@ require (
 	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d // indirect
 	github.com/asticode/go-astikit v0.21.1 // indirect
 	github.com/asticode/go-astilectron v0.24.0 // indirect
+	github.com/go-chi/chi v1.5.4 // indirect
 	github.com/go-chi/chi/v5 v5.0.3 // indirect
 	github.com/justinas/nosurf v1.1.1 // indirect
 	gopkg.in/rethinkdb/rethinkdb-go.v6 v6.2.1 // indirect

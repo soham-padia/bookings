@@ -136,7 +136,7 @@ func (m *Repository) PostRegistration(w http.ResponseWriter, r *http.Request) {
 	form := forms.New(r.PostForm)
 
 	form.Required("first-name", "last-name", "phone", "email", "password", "passwordre")
-	form.MinLength("first-name", 3, r)
+	form.MinLength("first-name", 3)
 	form.IsEmail("email")
 	form.IsPhoneNumber("phone")
 
