@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/gob"
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -11,6 +12,7 @@ import (
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/solow-crypt/bookings/internal/config"
+	"github.com/solow-crypt/bookings/internal/driver"
 	"github.com/solow-crypt/bookings/internal/handlers"
 	"github.com/solow-crypt/bookings/internal/helpers"
 	"github.com/solow-crypt/bookings/internal/models"
@@ -26,11 +28,17 @@ var errorLog *log.Logger
 
 func main() {
 
-	err := run()
+	db, err := run()
 
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	defer db.SQL.Close()
+
+	defer close(app.MailChan)
+	fmt.Println("Starting mail listener...")
+	ListenForMail()
 
 	fmt.Println("starting at port", portNumber)
 
@@ -43,11 +51,27 @@ func main() {
 	log.Fatal(err)
 }
 
-func run() error {
+func run() (*driver.DB, error) {
 	gob.Register(models.Registration{})
+	gob.Register(models.User{})
+
+	inProgress := flag.Bool("production", true, "Application is in production")
+	useCache := flag.Bool("cache", true, "use template cache")
+	dbHost := flag.String("dbhost", "localhost", "Database host")
+	dbName := flag.String("dbname", "", "Database name")
+	dbUser := flag.String("dbuser", "", "Database user")
+	dbPass := flag.String("dbpass", "", "Database pass")
+	dbPort := flag.String("dbport", "5432", "Database port")
+	dbSSL := flag.String("dbssl", "disable", "Database SSl settings (disable, prefer, require)")
+
+	flag.Parse()
+
+	mailChan := make(chan models.MailData)
+	app.MailChan = mailChan
 
 	//change this to true when in  production
-	app.InProduction = false
+	app.InProduction = *inProgress
+	app.UseCache = *useCache
 
 	infoLog = log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	app.Infolog = infoLog
@@ -63,23 +87,32 @@ func run() error {
 
 	app.Session = session
 
+	//connext to db
+	log.Println("connecting to Database...")
+
+	connectionString := fmt.Sprintf("host=%s port=%s dbname=%s user=%s password=%s sslmode=%s", *dbHost, *dbPort, *dbName, *dbUser, *dbPass, *dbSSL)
+
+	db, err := driver.ConnectSQL(connectionString)
+	if err != nil {
+		log.Fatal("cannot connect to db , dying")
+	}
+	log.Println("Connected to Database")
+
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
+		log.Println(err)
 		log.Fatal("cannot create template")
-		return err
+		return nil, err
 	}
 
 	app.TemplateCache = tc
 
 	//for developers use false
-	app.UseCache = false
 
-	repo := handlers.NewRepo(&app)
+	repo := handlers.NewRepo(&app, db)
 	handlers.NewHandlers(repo)
-
-	render.NewTemplates(&app)
-
+	render.NewRenderer(&app)
 	helpers.NewHelpers(&app)
 
-	return nil
+	return db, nil
 }

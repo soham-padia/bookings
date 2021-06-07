@@ -26,18 +26,22 @@ func routes(app *config.AppConfig) http.Handler {
 	mux.Get("/contact", handlers.Repo.Contact)
 	mux.Get("/docs", handlers.Repo.Docs)
 	mux.Get("/donate", handlers.Repo.Donate)
-	mux.Get("/login", handlers.Repo.Login)
 
-	mux.Post("/login", handlers.Repo.PostLogin)
-	mux.Get("/login-json", handlers.Repo.LoginJSON)
-
-	mux.Get("/register", handlers.Repo.Register)
-	mux.Post("/register", handlers.Repo.PostRegistration)
-	mux.Post("/register-json", handlers.Repo.RegisterJSON)
-	mux.Get("/registration-summary", handlers.Repo.RegistrationSummary)
+	mux.Get("/user/login", handlers.Repo.ShowLogin)
+	mux.Post("/user/login", handlers.Repo.PostShowLogin)
+	mux.Get("/user/logout", handlers.Repo.Logout)
 
 	fileServer := http.FileServer(http.Dir("./static/"))
 	mux.Handle("/static/*", http.StripPrefix("/static", fileServer))
+
+	mux.Route("/admin", func(mux chi.Router) {
+		mux.Use(Auth)
+		mux.Get("/dashboard", handlers.Repo.AdminDashboard)
+
+		mux.Get("/users-new", handlers.Repo.AdminNewUsers)
+		mux.Get("/users-all", handlers.Repo.AdminAllUsers)
+		mux.Get("/donation", handlers.Repo.AdminDonationInfo)
+	})
 
 	return mux
 }
