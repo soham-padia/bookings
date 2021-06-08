@@ -1,0 +1,39 @@
+{{template "base" .}}
+
+{{define "content"}}
+
+<div class="container">
+    <div class="row">
+      <div class="col">
+        <form method="post" action="/user/login">
+            
+          <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+          <div class="form-group mt-3">
+            <label for="email">Email:</label>
+            {{with .Form.Errors.Get "email"}}
+                <label class="text-danger" for="">{{.}}</label>
+            {{end}}
+            <input type="email" name="email" id="email" value="" class="form-control {{with .Form.Errors.Get "email"}} is-invalid {{end}}" required autocomplete="off">
+            <div class="valid-feedback">Looks Good!</div>
+          </div>
+
+          <div class="form-group mt-3">
+            <label for="password">Password:</label>
+            {{with .Form.Errors.Get "password"}}
+                <label class="text-danger" for="">{{.}}</label>
+            {{end}}
+            <input type="password" name="password" id="password" value="" class="form-control {{with .Form.Errors.Get "password"}} is-invalid {{end}}" required autocomplete="off">
+            <div class="valid-feedback">Looks Good!</div>
+          </div>
+          <hr>
+          <button type="submit" class="btn btn-primary">Submit</button>
+            <!-- <a class="btn btn-outline-danger" id="regButton" href="#">Not registered? click here</a> -->
+          <a class="btn btn-outline-danger" id="" href="/register">Not registered? click here</a>
+          
+        </form>
+      </div>
+    </div>
+  </div>
+
+{{end}}
+

@@ -1,0 +1,46 @@
+{{template "base" .}}
+
+{{define "content"}}
+
+{{$res := index .Data "registration"}}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="mt-5">Registration Summary</h1>
+
+            <hr>
+
+            <table class="table table-striped">
+                <thead></thead>
+                <tbody>
+                    <tr class="textcol">
+                        <td>FName:</td>
+                        <td>{{$res.Firstname}}</td>
+                    </tr>
+                    <tr class="textcol">
+                        <td>LName:</td>
+                        <td>{{$res.Lastname}}</td>
+                    </tr>
+                    <tr class="textcol">
+                        <td>Email:</td>
+                        <td>{{$res.Email}}</td>
+                    </tr>
+                    <tr class="textcol">
+                        <td>Phone:</td>
+                        <td>{{$res.Phone}}</td>
+                    </tr>
+                    <tr class="textcol">
+                        <td>Pass:</td>
+                        <td>{{$res.Password}}</td>
+                    </tr>
+                    <tr class="textcol">
+                        <td>RePass:</td>
+                        <td>{{$res.Password2}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{{end}}
