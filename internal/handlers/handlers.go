@@ -119,6 +119,51 @@ func (m *Repository) Logout(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func (m *Repository) Registration(w http.ResponseWriter, r *http.Request) {
+	render.Template(w, r, "reg.page.tmpl", &models.TemplateData{
+		Form: forms.New(nil),
+	})
+}
+
+func (m *Repository) PostRegistration(w http.ResponseWriter, r *http.Request) {
+	_ = m.App.Session.RenewToken(r.Context())
+
+	err := r.ParseForm()
+	if err != nil {
+		log.Println(err)
+	}
+
+	first_name := r.Form.Get("first_name")
+	last_name := r.Form.Get("last_name")
+	email := r.Form.Get("email")
+	password := r.Form.Get("password")
+	passwordre := r.Form.Get("passwordre")
+
+	form := forms.New(r.PostForm)
+	form.Required("email", "password")
+	form.IsEmail("email")
+	form.IsSame("password", "passwordre")
+
+	if !form.Valid() {
+		render.Template(w, r, "reg.page.tmpl", &models.TemplateData{
+			Form: form,
+		})
+		return
+	}
+
+	err = m.DB.AddUser(first_name, last_name, email, password)
+	if err != nil {
+		log.Println(err)
+		m.App.Session.Put(r.Context(), "error", "invalid registration credentials")
+		http.Redirect(w, r, "/user/register", http.StatusSeeOther)
+		return
+	}
+	// m.App.Session.Put(r.Context(), "user_id", id)
+
+	m.App.Session.Put(r.Context(), "flash", "registered successfully")
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
+
 func (m *Repository) AdminDashboard(w http.ResponseWriter, r *http.Request) {
 	render.Template(w, r, "admin-dashboard.page.tmpl", &models.TemplateData{})
 }

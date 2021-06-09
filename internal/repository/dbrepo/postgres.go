@@ -3,6 +3,7 @@ package dbrepo
 import (
 	"context"
 	"errors"
+	"log"
 	"time"
 
 	"github.com/solow-crypt/bookings/internal/models"
@@ -85,4 +86,33 @@ func (m *postgresDBRepo) Authenticate(email, testpassword string) (int, string, 
 	}
 
 	return id, hashedPassword, nil
+}
+
+func (m *postgresDBRepo) AddUser(first_name, last_name, email, password string) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), 12)
+	created_at := time.Now()
+	updated_at := time.Now()
+
+	checkforEmail := m.DB.QueryRowContext(ctx, "select email from users where email = $1", email)
+
+	var email2 string
+
+	err := checkforEmail.Scan(&email2)
+	if err != nil {
+		if email2 == email {
+			log.Println(err)
+			return errors.New("email already exists")
+		}
+	}
+
+	query := `insert into users (first_name,last_name,email,password,access_level,created_at,updated_at) values ($1, $2, $3, $4, $5, $6);`
+	row := m.DB.QueryRowContext(ctx, query, first_name, last_name, email, hashedPassword, 1, created_at, updated_at)
+	err = row.Scan()
+	if err != nil {
+		return err
+	}
+	return nil
 }

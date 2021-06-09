@@ -13,7 +13,9 @@
             {{with .Form.Errors.Get "email"}}
                 <label class="text-danger" for="">{{.}}</label>
             {{end}}
-            <input type="email" name="email" id="email" value="" class="form-control {{with .Form.Errors.Get "email"}} is-invalid {{end}}" required autocomplete="off">
+            <input type="email" name="email" id="email" value="" 
+            class="form-control {{with .Form.Errors.Get "email"}} is-invalid {{end}}" 
+            required autocomplete="off">
             <div class="valid-feedback">Looks Good!</div>
           </div>
 
@@ -28,7 +30,7 @@
           <hr>
           <button type="submit" class="btn btn-primary">Submit</button>
             <!-- <a class="btn btn-outline-danger" id="regButton" href="#">Not registered? click here</a> -->
-          <a class="btn btn-outline-danger" id="" href="/register">Not registered? click here</a>
+          <a class="btn btn-outline-danger" id="" href="/user/register">Not registered? click here</a>
           
         </form>
       </div>

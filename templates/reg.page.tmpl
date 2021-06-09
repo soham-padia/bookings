@@ -3,109 +3,73 @@
 {{define "content"}}
 
 <div class="container">
-
     <div class="row">
-
       <div class="col">
-        <h1>Register</h1>
+            <h1>Register</h1>
 
-        {{$res := index .Data "register"}}
-        <form action="/register" method="POST" class="" novalidate>
-            <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
+            <form method="post" action="/user/register">       
+                <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
 
-           
-            <div class="form-group mt-5">
-                <label for="first-name">First name:</label>
-                {{with .Form.Errors.Get "first-name"}}
-                    <label class="text-danger" for="">{{.}}</label>
-                {{end}}
-                <input type="text" name="first-name" id="first-name" value="{{$res.Firstname}}" class="form-control {{with .Form.Errors.Get "first-name"}} is-invalid {{end}}" required autocomplete="off">
-                <div class="valid-feedback">Looks Good!</div>
-            </div>
-            <div class="form-group mt-3">
-                <label for="last-name">Last name:</label>
-                {{with .Form.Errors.Get "last-name"}}
-                    <label class="text-danger" for="">{{.}}</label>
-                {{end}}
-                <input type="text" name="last-name" id="last-name" value="{{$res.Lastname}}" class="form-control {{with .Form.Errors.Get "last-name"}} is-invalid {{end}}" required autocomplete="off">
-                <div class="valid-feedback">Looks Good!</div>
-            </div>
-            <div class="form-group mt-3">
-                <label for="email">Email:</label>
-                {{with .Form.Errors.Get "email"}}
-                    <label class="text-danger" for="">{{.}}</label>
-                {{end}}
-                <input type="email" name="email" id="email" value="{{$res.Email}}" class="form-control {{with .Form.Errors.Get "email"}} is-invalid {{end}}" required autocomplete="off">
-                <div class="valid-feedback">Looks Good!</div>
-            </div>
-            <div class="form-group mt-3">
-                <label for="phone">Phone Number:</label>
-                {{with .Form.Errors.Get "phone"}}
-                    <label class="text-danger" for="">{{.}}</label>
-                {{end}}
-                <input type="text" name="phone" id="phone" required value="{{$res.Phone}}" class="form-control {{with .Form.Errors.Get "phone"}} is-invalid {{end}}" autocomplete="off">
-                <div class="valid-feedback">Looks Good!</div>
-            </div>
-            <div class="form-group mt-3">
-                <label for="password">Password:</label>
-                {{with .Form.Errors.Get "password"}}
-                    <label class="text-danger" for="">{{.}}</label>
-                {{end}}
-                <input type="password" name="password" id="password" value="{{$res.Password}}" class="form-control {{with .Form.Errors.Get "password"}} is-invalid {{end}}" required autocomplete="off">
-                <div class="valid-feedback">Looks Good!</div>
-            </div>
-            <div class="form-group mt-3">
-                <label for="password">Re-enter Password:</label>
-                {{with .Form.Errors.Get "passwordre"}}
-                    <label class="text-danger" for="">{{.}}</label>
-                {{end}}
-                <input type="password" name="passwordre" id="passwordre" value="{{$res.Password2}}" class="form-control {{with .Form.Errors.Get "passwordre"}} is-invalid {{end}}" required autocomplete="off">
-                <div class="valid-feedback">Looks Good!</div>
-            </div>
-            
-            
-            <hr>
+                <div class="form-group mt-3">
+                    <label for="first_name">First Name:</label>
+                    {{with .Form.Errors.Get "first_name"}}
+                        <label class="text-danger" for="">{{.}}</label>
+                    {{end}}
+                    <input type="text" name="first_name" id="first_name" value="" 
+                    class="form-control {{with .Form.Errors.Get "first_name"}} is-invalid {{end}}" 
+                    required autocomplete="off">
+                    <div class="valid-feedback">Looks Good!</div>
+                </div>
 
-            <input type="submit" class="btn btn-outline-danger" value="Make Registeration">
-            
-            
-        </form>
+                <div class="form-group mt-3">
+                    <label for="last_name">Last Name:</label>
+                    {{with .Form.Errors.Get "last_name"}}
+                        <label class="text-danger" for="">{{.}}</label>
+                    {{end}}
+                    <input type="text" name="last_name" id="last_name" value="" 
+                    class="form-control {{with .Form.Errors.Get "last_name"}} is-invalid {{end}}" 
+                    required autocomplete="off">
+                    <div class="valid-feedback">Looks Good!</div>
+                </div>
 
-        <!-- <p>
-            Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-            to remember.
-            Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-            to remember.
-            Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-            to remember.
-            Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-            to remember.
-            Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-            to remember.
-            Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-            to remember.
-        </p> -->
+                <div class="form-group mt-3">
+                    <label for="email">Email:</label>
+                    {{with .Form.Errors.Get "email"}}
+                        <label class="text-danger" for="">{{.}}</label>
+                    {{end}}
+                    <input type="email" name="email" id="email" value="" 
+                    class="form-control {{with .Form.Errors.Get "email"}} is-invalid {{end}}" 
+                    required autocomplete="off">
+                    <div class="valid-feedback">Looks Good!</div>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label for="password">Password:</label>
+                    {{with .Form.Errors.Get "password"}}
+                        <label class="text-danger" for="">{{.}}</label>
+                    {{end}}
+                    <input type="password" name="password" id="password" value="" class="form-control {{with .Form.Errors.Get "password"}} is-invalid {{end}}" required autocomplete="off">
+                    <div class="valid-feedback">Looks Good!</div>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label for="passwordre">Re-enter Password:</label>
+                    {{with .Form.Errors.Get "passwordre"}}
+                        <label class="text-danger" for="">{{.}}</label>
+                    {{end}}
+                    <input type="password" name="passwordre" id="passwordre" value="" class="form-control {{with .Form.Errors.Get "passwordre"}} is-invalid {{end}}" required autocomplete="off">
+                    <div class="valid-feedback">Looks Good!</div>
+                </div>
+
+                <hr>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                    <!-- <a class="btn btn-outline-danger" id="regButton" href="#">Not registered? click here</a> -->
+                <!-- <a class="btn btn-outline-danger" id="" href="/user/register">Not registered? click here</a> -->
+            
+            </form>
       </div>
-
     </div>
-
-    <!-- <div class="row ">
-    
-
-        <div class="col text-center">
-            
-            <hr>
-            <a id="regButton" href="#!" class="btn btn-outline-danger">Register</a> 
-            <a id="regButt"  href="#!" class="btn btn-outline-danger">Register</a>
-
-        </div>
-    </div> -->
-
   </div>
-</div>
 
 {{end}}
 
-{{define "js"}}
-
-{{end}}
