@@ -116,3 +116,42 @@ func (m *postgresDBRepo) AddUser(first_name, last_name, email, password string) 
 	}
 	return nil
 }
+
+func (m *postgresDBRepo) InsertUser(u models.Registration) (error, int) {
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	defer cancel()
+
+	checkforEmail := `select id from users where email='$1'`
+
+	id, err := m.DB.ExecContext(ctx, checkforEmail, u.Email)
+	if err != nil {
+
+		if !(id != nil) {
+			//TODO
+			log.Println("------------------------------------------------")
+			return err, 1
+		}
+
+		return err, 0
+	}
+
+	stmt := `insert into users (first_name,last_name,email,password,access_level, created_at, updated_at) values ($1, $2, $3, $4, $5, $6, $7)`
+
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(u.Password), 12)
+
+	_, err = m.DB.ExecContext(ctx, stmt,
+		u.Firstname,
+		u.Lastname,
+		u.Email,
+		hashedPassword,
+		1,
+		time.Now(),
+		time.Now(),
+	)
+
+	if err != nil {
+		return err, 0
+	}
+
+	return nil, 0
+}

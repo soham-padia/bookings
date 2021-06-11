@@ -7,6 +7,7 @@ import (
 	"github.com/solow-crypt/bookings/internal/config"
 	"github.com/solow-crypt/bookings/internal/driver"
 	"github.com/solow-crypt/bookings/internal/forms"
+	"github.com/solow-crypt/bookings/internal/helpers"
 	"github.com/solow-crypt/bookings/internal/models"
 	"github.com/solow-crypt/bookings/internal/render"
 	"github.com/solow-crypt/bookings/internal/repository"
@@ -126,42 +127,59 @@ func (m *Repository) Registration(w http.ResponseWriter, r *http.Request) {
 }
 
 func (m *Repository) PostRegistration(w http.ResponseWriter, r *http.Request) {
-	_ = m.App.Session.RenewToken(r.Context())
-
 	err := r.ParseForm()
 	if err != nil {
-		log.Println(err)
+		helpers.ServerError(w, err)
+		return
 	}
 
-	first_name := r.Form.Get("first_name")
-	last_name := r.Form.Get("last_name")
-	email := r.Form.Get("email")
-	password := r.Form.Get("password")
-	passwordre := r.Form.Get("passwordre")
+	registration := models.Registration{
+		Firstname: r.Form.Get("first_name"),
+		Lastname:  r.Form.Get("last_name"),
+		Email:     r.Form.Get("email"),
+		Password:  r.Form.Get("password"),
+		Password2: r.Form.Get("passwordre"),
+	}
 
 	form := forms.New(r.PostForm)
-	form.Required("email", "password")
+
+	form.Required("first_name", "last_name", "email", "password", "passwordre")
+	form.MinLength("first_name", 3)
 	form.IsEmail("email")
 	form.IsSame("password", "passwordre")
 
 	if !form.Valid() {
+		data := make(map[string]interface{})
+		data["registration"] = registration
 		render.Template(w, r, "reg.page.tmpl", &models.TemplateData{
 			Form: form,
+			Data: data,
 		})
 		return
 	}
 
-	err = m.DB.AddUser(first_name, last_name, email, password)
+	err, val := m.DB.InsertUser(registration)
 	if err != nil {
-		log.Println(err)
-		m.App.Session.Put(r.Context(), "error", "invalid registration credentials")
-		http.Redirect(w, r, "/user/register", http.StatusSeeOther)
-		return
-	}
-	// m.App.Session.Put(r.Context(), "user_id", id)
 
-	m.App.Session.Put(r.Context(), "flash", "registered successfully")
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+		if val == 1 {
+			// helpers.ClientError(w, http.StatusAlreadyReported)
+			m.App.Session.Put(r.Context(), "error", "Email is already registered")
+			http.Redirect(w, r, "/user/login", http.StatusSeeOther)
+		}
+
+		helpers.ServerError(w, err)
+	} else {
+		m.App.Session.Put(r.Context(), "registration", registration)
+
+		m.App.Session.Put(r.Context(), "flash", "Registered successfully please login")
+		http.Redirect(w, r, "/user/login", http.StatusSeeOther)
+	}
+
+	// m.App.Session.Put(r.Context(), "registration", registration)
+
+	// m.App.Session.Put(r.Context(), "flash", "Registered successfully please login")
+	// http.Redirect(w, r, "/user/login", http.StatusSeeOther)
+
 }
 
 func (m *Repository) AdminDashboard(w http.ResponseWriter, r *http.Request) {
