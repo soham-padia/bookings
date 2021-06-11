@@ -87,59 +87,39 @@ func (m *postgresDBRepo) Authenticate(email, testpassword string) (int, string, 
 
 	return id, hashedPassword, nil
 }
-
-func (m *postgresDBRepo) AddUser(first_name, last_name, email, password string) error {
+func (m *postgresDBRepo) DoesEmailExist(u models.Registration) bool {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
-	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), 12)
-	created_at := time.Now()
-	updated_at := time.Now()
+	var id int
 
-	checkforEmail := m.DB.QueryRowContext(ctx, "select email from users where email = $1", email)
+	checkforEmailQuery := `select id from users where email = $1`
 
-	var email2 string
+	row := m.DB.QueryRowContext(ctx, checkforEmailQuery, u.Email)
 
-	err := checkforEmail.Scan(&email2)
-	if err != nil {
-		if email2 == email {
-			log.Println(err)
-			return errors.New("email already exists")
-		}
+	_ = row.Scan(&id)
+	log.Println("ooooooooooooooooooo")
+	log.Println(id)
+	//log.Println(err)
+	log.Println("-------------------")
+
+	if !(id != 0) {
+		return false
+	} else {
+		return true
 	}
 
-	query := `insert into users (first_name,last_name,email,password,access_level,created_at,updated_at) values ($1, $2, $3, $4, $5, $6);`
-	row := m.DB.QueryRowContext(ctx, query, first_name, last_name, email, hashedPassword, 1, created_at, updated_at)
-	err = row.Scan()
-	if err != nil {
-		return err
-	}
-	return nil
 }
 
-func (m *postgresDBRepo) InsertUser(u models.Registration) (error, int) {
+func (m *postgresDBRepo) InsertUser(u models.Registration) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
-
-	checkforEmail := `select id from users where email='$1'`
-
-	id, err := m.DB.ExecContext(ctx, checkforEmail, u.Email)
-	if err != nil {
-
-		if !(id != nil) {
-			//TODO
-			log.Println("------------------------------------------------")
-			return err, 1
-		}
-
-		return err, 0
-	}
 
 	stmt := `insert into users (first_name,last_name,email,password,access_level, created_at, updated_at) values ($1, $2, $3, $4, $5, $6, $7)`
 
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(u.Password), 12)
 
-	_, err = m.DB.ExecContext(ctx, stmt,
+	_, err := m.DB.ExecContext(ctx, stmt,
 		u.Firstname,
 		u.Lastname,
 		u.Email,
@@ -150,8 +130,8 @@ func (m *postgresDBRepo) InsertUser(u models.Registration) (error, int) {
 	)
 
 	if err != nil {
-		return err, 0
+		return err
 	}
 
-	return nil, 0
+	return nil
 }

@@ -8,5 +8,6 @@ type DatabaseRepo interface {
 	GetUserById(id int) (models.User, error)
 	UpdateUser(u models.User) error
 	Authenticate(email, testpassword string) (int, string, error)
-	InsertUser(u models.Registration) (error, int)
+	InsertUser(u models.Registration) error
+	DoesEmailExist(u models.Registration) bool
 }

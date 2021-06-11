@@ -158,21 +158,22 @@ func (m *Repository) PostRegistration(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err, val := m.DB.InsertUser(registration)
-	if err != nil {
+	doesEmailExist := m.DB.DoesEmailExist(registration)
 
-		if val == 1 {
-			// helpers.ClientError(w, http.StatusAlreadyReported)
-			m.App.Session.Put(r.Context(), "error", "Email is already registered")
-			http.Redirect(w, r, "/user/login", http.StatusSeeOther)
+	if doesEmailExist {
+		m.App.Session.Put(r.Context(), "error", "Email is already registered")
+		http.Redirect(w, r, "/user/login", http.StatusSeeOther)
+	} else {
+		err = m.DB.InsertUser(registration)
+		if err != nil {
+			helpers.ServerError(w, err)
 		}
 
-		helpers.ServerError(w, err)
-	} else {
 		m.App.Session.Put(r.Context(), "registration", registration)
 
 		m.App.Session.Put(r.Context(), "flash", "Registered successfully please login")
 		http.Redirect(w, r, "/user/login", http.StatusSeeOther)
+
 	}
 
 	// m.App.Session.Put(r.Context(), "registration", registration)
