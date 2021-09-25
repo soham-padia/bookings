@@ -68,9 +68,6 @@ func (f *Form) IsSame(field, field2 string) {
 	p := f.Get(field)
 	p2 := f.Get(field2)
 
-	fmt.Println(p)
-	fmt.Println(p2)
-
 	if !(p == p2) {
 		log.Println("password not same")
 		f.Errors.Add(field2, "passwords doesnt match")

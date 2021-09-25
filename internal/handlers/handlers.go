@@ -64,6 +64,9 @@ func (m *Repository) Docs(w http.ResponseWriter, r *http.Request) {
 func (m *Repository) Donate(w http.ResponseWriter, r *http.Request) {
 	render.Template(w, r, "donate.page.tmpl", &models.TemplateData{})
 }
+func (m *Repository) SiteSource(w http.ResponseWriter, r *http.Request) {
+	render.Template(w, r, "sitesource.page.tmpl", &models.TemplateData{})
+}
 
 // type jsonRequest struct {
 // 	OK      bool   `json:"ok"`
