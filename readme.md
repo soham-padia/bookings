@@ -1,6 +1,6 @@
-# Bookings and Reservation
+# Trial webapp
 
-This is the repository for my bookings and reservation project.
+This is my attemp to make a trial website with the help of [this course on udemy](https://www.udemy.com/course/building-modern-web-applications-with-go/) 
 
 - built in Go version 1.16
 - Uses the [chi router](github.com/go-chi/chi/)
